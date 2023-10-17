@@ -1,2 +1,4 @@
-# HidingInformationInText
-Project on Steganography at AGH University of Science and Technology on the topic of hiding information in the text.
+# Ukrywanie informacji w tekście
+Projekt z przedmiotu Staganografia na kierunku Informatyka Akademii Górniczo-Hutniczej w Krakowie, dotyczący ukrywania informacji w tekście.
+
+

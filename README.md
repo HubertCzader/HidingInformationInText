@@ -6,7 +6,7 @@ Projekt z przedmiotu Staganografia na kierunku Informatyka Akademii Górniczo-Hu
 
 ## Autorzy
 - Hubert Czader ([@HubertCzader](https://github.com/HubertCzader))
-- Mateusz Zalewski
+- Mateusz Zalewski ([@a-float](https://github.com/a-float?tab=following))
 
 ## Spis treści:
 1. [Wstęp](#1-wstęp)
@@ -20,4 +20,4 @@ Celem projektu jest opracowanie aplikacji desktopowej umożliwiającej ukrywanie
 ## 2. Aktualny stan wiedzy
 
 ## 3. Bibliografia
-
+###### [1] https://sci-hub.se/10.1016/j.protcy.2013.12.343

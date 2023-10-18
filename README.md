@@ -56,8 +56,30 @@ Metoda przesuwania linii służy do modyfikowania tekstu poprzez przesuwanie lin
 ### Skróty
 Generowanie skrótów w tekście polega na zastępowaniu wyrazów lub fraz słowem skróconym, co skutkuje zmniejszeniem tekstu i ukryciem informacji. Skróty mogą być wykorzystane do ukrycia wiadomości, ponieważ wiele słów może zostać zastąpionych jednym skrótem, co tworzy inną interpretację tekstu i pomaga w generowaniu tekstu osłonowego. Zamierzony odbiorca powinien znać skróty używane przez nadawcę, a potencjalny atakujący może nie wykryć tekstu osłonowego. 
 
-## 3. Bibliografia
-###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf
-###### [2] https://arxiv.org/ftp/arxiv/papers/1302/1302.2718.pdf
-###### [2] https://sci-hub.se/10.1016/j.protcy.2013.12.343
+### Metoda generacji strzeszczenia tekstu z wykorzystanie symetrii liter [3]
+Metoda zaproponowana w tej pracy koduje wiadomość przy pomocy pierwszych liter każdego zdania. Litery alfabetu łacińskiego podzielone są na 4 rozłączne zbiory. Litery posiadające symetrię pionową, litery posiadające symetrię poziomą, litery posiadające symetrie poziomą oraz pionową oraz litery nie posiadające żadnej z nich. Każdej grupie przyporządkowana zostaje para bitów 00, 01, 10 lub 11.
 
+![Letter symmetry groups](./images/letter_symmetry.png)
+
+Proces ukrywania wiadomości wiąże się z modyfikacją tekstu źródłowego. W celu zmniejszenia prawdopodobieństwa wykrycia obecności wiadomości, cover-text tworzony jest poprzez usunięcie z tekstu żródłowego zdań, których pierwsza litera nie koduje potrzebnej w danym etapie pary bitów.
+
+Proces kodowania wiadomości `0111` w tekście `Strusie emu to duże ptaki. Potrafią biegać bardzo szybko. Mieszkają w Australii. Ich dietę stanowią trawy, owoce oraz owady.` wygląda następująco.
+
+`Strusie emu...` - `S` - 01 - zostawiamy  
+`Potrafią bi...` - `P` - 00 - pomijamy  
+`Mieszkają w...` - `M` - 10 - pomijamy  
+`Ich dietę s...` - `I` - 11 - zostawiamy
+
+Wygenerowanym strzeszczeniem jest więc `Strusie emu to duże ptaki. Ich dietę stanowią trawy, owoce oraz owady.`
+
+Ponieważ tekst wynikowy jest podzbiorem zdań testu źródłowego, z dużym prawdopodobieństwem zawiera on tekst poprawny semantycznie co zmniejsza prawdopodobieństwo wykrycia. Atutem tego podejścia jest także odporności na przepisywanie.
+
+Wadą tego podejścia może być różna różnica w rozmiarach grup liter. Liter posiadających obie symetrie, które kodują `11` jest tylko cztery, ponadto jedną z nich jest `X`. Może to wiązać się z trudnością kodowania tej pary bitów, a przez to zwiększać rozmiar wymaganego tekstu źródłowego.
+
+## 3. Bibliografia
+
+###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf
+
+###### [2] https://arxiv.org/ftp/arxiv/papers/1302/1302.2718.pdf
+
+###### [3] https://www.sciencedirect.com/science/article/pii/S2212017313004970

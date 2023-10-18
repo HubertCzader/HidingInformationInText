@@ -59,7 +59,8 @@ Generowanie skrótów w tekście polega na zastępowaniu wyrazów lub fraz słow
 ### Metoda generacji strzeszczenia tekstu z wykorzystanie symetrii liter [3]
 Metoda zaproponowana w tej pracy koduje wiadomość przy pomocy pierwszych liter każdego zdania. Litery alfabetu łacińskiego podzielone są na 4 rozłączne zbiory. Litery posiadające symetrię pionową, litery posiadające symetrię poziomą, litery posiadające symetrie poziomą oraz pionową oraz litery nie posiadające żadnej z nich. Każdej grupie przyporządkowana zostaje para bitów 00, 01, 10 lub 11.
 
-![Letter symmetry groups](./images/letter_symmetry.png)
+> ![Letter symmetry groups](./images/letter_symmetry.png)  
+> Grupowanie liter na podstawie ich symetrii [3]
 
 Proces ukrywania wiadomości wiąże się z modyfikacją tekstu źródłowego. W celu zmniejszenia prawdopodobieństwa wykrycia obecności wiadomości, cover-text tworzony jest poprzez usunięcie z tekstu żródłowego zdań, których pierwsza litera nie koduje potrzebnej w danym etapie pary bitów.
 
@@ -76,6 +77,29 @@ Ponieważ tekst wynikowy jest podzbiorem zdań testu źródłowego, z dużym pra
 
 Wadą tego podejścia może być różna różnica w rozmiarach grup liter. Liter posiadających obie symetrie, które kodują `11` jest tylko cztery, ponadto jedną z nich jest `X`. Może to wiązać się z trudnością kodowania tej pary bitów, a przez to zwiększać rozmiar wymaganego tekstu źródłowego.
 
+### Pseudo spacje w językach Arabskich [4]
+W związku z wykorzystywaniem innego alfabetu, język arabski oferuje inne możliwości steganograficzne niż alfabet łaciński. W artykule opisane są dwie metody ukrywania wiadomości w tekście.
+
+Opierają się ona na wykorzystaniu dwóch znaków specjalnych: `kashidy` oraz `pseudo-spacji (PS)`. Kashida jest znakiem wykorzytywanym do justowania tekstów arabskich. Wydłuża ona pewne poziome linie wewnątrz słów. 
+Pseudo spacja jest znakiem który nie pozwala na połączenie się otaczających go znaków, nie tworząc jednocześnie odstępu między nimi.
+
+Pierwsza z nich `Kashida-PS`, jest rozszerzeniem metody przedstawionej w [5]. Ukrywa ona większą liczbę bitów niż jej poprzednik, ponieważ wykorzystują każdą literę oraz znak biały do kodowania wiadomości. Po przed każdą literą która akceptuje kashidę, wstawiana jest jedna kashida w celu zakodowania 0 lub dwie w celu zakodowowania 1. Jeśli znak nie akceptuje kashidy lub jest znakiem biały, podobnie wstawiane są przed nim dwa lub jeden znak PS.
+
+> ![Kashida-PS example](./images/kashida-ps.png)  
+> Przykład zastosowania metody Kashida-PS, źródło [4]
+
+Druga metoda, nazwana `PS-betWords` wykorzystuje wyłącznie znak PS. Dzieli ona strumień bitów wiadomości do ukrycia na grupy o rozmiarze n. Zastosowanie większych wartości n skutkuje zwiększeniem pojemności tekstu, co wiąże się jednak z większą różnicą w rozmiarach tekstu źródłowego oraz cover-textu, co zmniejsza bezpieczeństwo tej metody. (Security > L.Digital standard). 
+
+Algorytm osadzania wiadomości jest prosty. Każdy znak spacji koduje n bitów. Dokonywane jest to poprzez wstawianie przed nim znaków PS w liczbie równej wartości binarnej kodowanej grupy. Tak więc w celu zakodowania grupy `0101` wstawione zostanie 5 znaków PS, a `11000` 24 znaki.
+
+> ![PS-betWords example](./images/ps-betwords.png)  
+> Przykład zastosowania metody PS-betWords, źródło [4]
+
+W przeciwieństwie do metody pierwszej, metoda ta jest możliwa do zaimplementowania w każdym języku, a także zapewnia pełną wizualną zgodność tekstu sprzed i po ukryciu w nim wiadomości.
+
+Metoda `Kashida-PS` poprzez wykorzystanie kashidy oraz znaków spacji jak i liter osiąga natomiast większą pojemność.
+
+
 ## 3. Bibliografia
 
 ###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf
@@ -83,3 +107,7 @@ Wadą tego podejścia może być różna różnica w rozmiarach grup liter. Lite
 ###### [2] https://arxiv.org/ftp/arxiv/papers/1302/1302.2718.pdf
 
 ###### [3] https://www.sciencedirect.com/science/article/pii/S2212017313004970
+
+###### [4] https://www.sciencedirect.com/science/article/pii/S1319157819304719
+
+###### [5] https://drive.uqu.edu.sa/_/aagutub/files/_/publications_conferences/Langkawi_ICMSCE_Feb/c_af_paper_published.pdf

@@ -11,7 +11,8 @@ Projekt z przedmiotu Staganografia na kierunku Informatyka Akademii Górniczo-Hu
 ## Spis treści:
 1. [Wstęp](#1-wstęp)
 2. [Aktualny stan wiedzy](#2-aktualny-stan-wiedzy)
-3. [Bibliografia](#3-bibliografia)
+3. [Przegląd literatury](#3-przegląd-literatury)
+4. [Bibliografia](#4-bibliografia)
 
 ## 1. Wstęp
 
@@ -55,6 +56,8 @@ Metoda przesuwania linii służy do modyfikowania tekstu poprzez przesuwanie lin
 
 ### Skróty
 Generowanie skrótów w tekście polega na zastępowaniu wyrazów lub fraz słowem skróconym, co skutkuje zmniejszeniem tekstu i ukryciem informacji. Skróty mogą być wykorzystane do ukrycia wiadomości, ponieważ wiele słów może zostać zastąpionych jednym skrótem, co tworzy inną interpretację tekstu i pomaga w generowaniu tekstu osłonowego. Zamierzony odbiorca powinien znać skróty używane przez nadawcę, a potencjalny atakujący może nie wykryć tekstu osłonowego. 
+
+## 3. Przegląd literatury
 
 ### Metoda generacji strzeszczenia tekstu z wykorzystanie symetrii liter [3]
 Metoda zaproponowana w tej pracy koduje wiadomość przy pomocy pierwszych liter każdego zdania. Litery alfabetu łacińskiego podzielone są na 4 rozłączne zbiory. Litery posiadające symetrię pionową, litery posiadające symetrię poziomą, litery posiadające symetrie poziomą oraz pionową oraz litery nie posiadające żadnej z nich. Każdej grupie przyporządkowana zostaje para bitów 00, 01, 10 lub 11.
@@ -100,14 +103,10 @@ W przeciwieństwie do metody pierwszej, metoda ta jest możliwa do zaimplementow
 Metoda `Kashida-PS` poprzez wykorzystanie kashidy oraz znaków spacji jak i liter osiąga natomiast większą pojemność.
 
 
-## 3. Bibliografia
+## 4. Bibliografia
 
 ###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf
-
 ###### [2] https://arxiv.org/ftp/arxiv/papers/1302/1302.2718.pdf
-
 ###### [3] https://www.sciencedirect.com/science/article/pii/S2212017313004970
-
 ###### [4] https://www.sciencedirect.com/science/article/pii/S1319157819304719
-
 ###### [5] https://drive.uqu.edu.sa/_/aagutub/files/_/publications_conferences/Langkawi_ICMSCE_Feb/c_af_paper_published.pdf

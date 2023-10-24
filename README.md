@@ -59,6 +59,28 @@ Generowanie skrótów w tekście polega na zastępowaniu wyrazów lub fraz słow
 
 ## 3. Przegląd literatury
 
+### Metoda wykorzystująca kolorowanie liter przy użyciu zbliżonych wartości RGB [1]
+
+Algorytm ten wykorzystuje cechy formatowania tekstu, gdzie identyczne znaki, pokolorowane przy użyciu następujących po sobie lub zbliżonych wartości RGB, stają się wizualnie nieodróżnialne, co przedstawiono na poniższym rysunku. 
+
+![Indiscernible changes](images/indiscerniblechanges.png)  
+Niezauważalne zmiany [1]
+
+Przykładowo litera A w alfabecie `dewanagari` (UNICODE) została pokolorowana za pomocą wartości RGB `000` i `111`, które są wzajemnie trudne do odróżnienia. Właściwość ta jest wykorzystywana w celu ukrywania danych w plikach tekstowych. Konkretnie, tekst o wartości `RGB (0, 0, 0)` (nazwany C0) jest przypisywany jako 0 binarne, zaś tekst o wartości `RGB (1, 1, 1)` (nazwany C1) jest przypisywany jako 1 binarne. W ten sposób, na przykład, wiadomość `0110` może być ukryta jako cztery litery o kolorach (C0, C1, C1, C0). Procedura ta zachowuje wizualną integralność pliku tekstowego, a jednocześnie pozwala na wykrycie wiadomości przy pomocy specjalnie zaprogramowanego oprogramowania.
+
+
+### Metoda ukrywania znaków w liście słów [2]
+
+Metoda ta i ukrywa wiadomość w liście słów, nie używając żadnego specjalnego znaku. Każdy znak jest ukryty w słowie o określonej długości. Pierwsza litera słowa jest determinowana przez maskowanie sumy cyfr wartości ASCII tego znaku do angielskiego alfabetu. Jeśli suma cyfr wynosi 1, to początkowa litera słowa będzie 'a'; jeśli 2, to 'b', i tak dalej. Ponieważ długość i początkowa litera słów zależy od wartości dziesiętnej osadzonych znaków, okładka jest generowana dynamicznie.
+
+
+### Metoda ukrywania znaków w paragrafach [2]
+
+Podejście to wykorzystuje uprzednio określony plik osłonowy, który może być dowolnym znaczącym fragmentem tekstu w języku angielskim i może być pobrany z dowolnego źródła (na przykład fragment paragrafu z gazety/książki). Podejście to działa poprzez ukrywanie wiadomości przy użyciu pierwszej i ostatniej litery słów z pliku osłonowego. Po przekształceniu tekstu szyfrogramu w strumień bitów, każdy bit jest ukrywany poprzez wybór słowa z pliku osłonowego i użycie albo pierwszej, albo ostatniej litery tego słowa, w zależności od bitu, który ma zostać ukryty. Bit 0 lub 1 jest ukrywany poprzez sekwencyjne odczytywanie słowa z pliku osłonowego i dodanie na początek lub koniec odpowiednio litery początkowej lub końcowej tego słowa do klucza stego. Słowo mające taką samą pierwszą i ostatnią literę jest pomijane. Ponieważ nie dokonuje się żadnych zmian w pliku osłonowym, plik osłonowy oraz odpowiadający mu plik steganograficzny są identyczne.
+
+![Cover file](images/cover_file.png) ![Stego file](images/stego_file.png)    
+Plik osłonowy (po lewej) i plik steganograficzny (po prawej) [2]
+
 ### Metoda generacji strzeszczenia tekstu z wykorzystanie symetrii liter [3]
 Metoda zaproponowana w tej pracy koduje wiadomość przy pomocy pierwszych liter każdego zdania. Litery alfabetu łacińskiego podzielone są na 4 rozłączne zbiory. Litery posiadające symetrię pionową, litery posiadające symetrię poziomą, litery posiadające symetrie poziomą oraz pionową oraz litery nie posiadające żadnej z nich. Każdej grupie przyporządkowana zostaje para bitów 00, 01, 10 lub 11.
 

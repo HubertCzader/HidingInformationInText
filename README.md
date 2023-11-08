@@ -12,7 +12,8 @@ Projekt z przedmiotu Staganografia na kierunku Informatyka Akademii Górniczo-Hu
 1. [Wstęp](#1-wstęp)
 2. [Aktualny stan wiedzy](#2-aktualny-stan-wiedzy)
 3. [Przegląd literatury](#3-przegląd-literatury)
-4. [Bibliografia](#4-bibliografia)
+4. [Zaproponowane algorytmy](#4-zaproponowane-algorytmy)
+5. [Bibliografia](#5-bibliografia)
 
 ## 1. Wstęp
 
@@ -125,7 +126,15 @@ W przeciwieństwie do metody pierwszej, metoda ta jest możliwa do zaimplementow
 Metoda `Kashida-PS` poprzez wykorzystanie kashidy oraz znaków spacji jak i liter osiąga natomiast większą pojemność.
 
 
-## 4. Bibliografia
+## 4. Zaproponowane algorytmy
+
+### Ukrywanie informacji w tekście poprzez dostosowanie koloru czcionki do koloru tła
+
+Algorytm rozpoczyna się od wybrania wiadomości ukrytrej, która może przyjąć postać ciągu znaków lub pliku tekstowego w różnych formatach. Następnie dobierany jest kolor czcionki tekstu tak, aby był on identyczny bądź bardzo bliski kolorowi tła dokumentu, w którym ma być docelowo zawarta ukrywana wiadomość. W kolejnym kroku, w przypadku gdy plik wejściowy jest plikiem tekstowym, algorytm odczytuje z niego wiadomość do ukrycia, po czym następuje zmiana koloru czcionki tekstu. W przeciwnym wypadku, gdy zmienną wejściową był ciąg znaków, algorytm pomija krok odczytu informacji z dokumentu i od razu przechodzi do dostosowania koloru czcionki do koloru tła. Gdy kolor czcionki wiadomości zostanie odpowiednio dobrany, zapisywana jest ona w pliku stego będącej nośnikiem krywanych informacji. Wiadomość zapisywana jest dokładnie w miejscu, w którym zapisany jest już tekst, co znacząco zmniejszy szansę jego wykrycia. Na końcu zwracany jest plik steganograficzny, w której ukryto wiadomość.
+
+Należy jednakże pamiętać, iż niektóre programy lub narzędzia do edycji tekstu mogą wyposażone być w funkcje automatycznego wykrywania i korekty kontrastu między kolorem czcionki a tłem. W przypadku, gdy różnica w kontraście między kolorami ukrytego tekstu a tła jest minimalna (niezauważalna dla oka), takie programy mogą wykryć ukrytą wiadomość poprzez detekcję różnic w kontrastach.
+
+## 5. Bibliografia
 
 ###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf
 ###### [2] https://arxiv.org/ftp/arxiv/papers/1302/1302.2718.pdf

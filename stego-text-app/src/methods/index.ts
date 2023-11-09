@@ -1,0 +1,1 @@
+export { whiteTextPdfMethod } from "./whiteTextPdf";

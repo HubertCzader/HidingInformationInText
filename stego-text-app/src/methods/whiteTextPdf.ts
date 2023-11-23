@@ -13,7 +13,7 @@ export const whiteTextPdfMethod: Method<WhiteTextPdfMethod> = {
   name: "White text in pdf",
   defaultCover: lorem,
   defaultStego: "Attack at dawn!",
-  config: { r: 0, g: 0, b: 255, fontSize: 5 },
+  config: { r: 255, g: 255, b: 255, fontSize: 5 },
   execute: (cover, stego, config) =>
     new Promise((resolve) => {
       const doc = new jsPDF();

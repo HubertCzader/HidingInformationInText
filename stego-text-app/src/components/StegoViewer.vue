@@ -26,11 +26,11 @@ watch(method, () => {
 
 <template>
   <main className="main-grid">
-    <section className="input-section">
+    <section className="input-section" style="grid-area: input1;">
       <label for="cover" className="h2">Cover text</label>
       <textarea v-model="coverText" id="cover" name="cover-text" />
     </section>
-    <section className="input-section">
+    <section className="input-section" style="grid-area: input2;">
       <label for="stego" className="h2">Stego text</label>
       <textarea v-model="stegoText" id="tego" name="cover-text" />
     </section>
@@ -45,10 +45,15 @@ watch(method, () => {
         </select>
       </label>
       <hr />
-      <ConfigComposer :config="method.config" @change-config="({ key, value }) => config = { ...config, [key]: value }" />
+      <ConfigComposer :config="method.config" @change-config="({key, value}) => config = { ...config, [key]: value }" />
       <button className="btn-success" @click="() => method.execute(coverText, stegoText, config)">
         Generate
       </button>
+    </section>
+    <section className="pdf-viewer" style="grid-area: pdf-view;">
+      <label for="stego" className="h2">PDF view</label>
+      <!-- <iframe src="../images/test.jpg" title="pdfview" frameboarder="0"></iframe> -->
+      <img src="../images/pdf_image.jpg" alt="PDF view" class = "pdf-viewer">
     </section>
   </main>
 </template>
@@ -56,12 +61,16 @@ watch(method, () => {
 <style scoped>
 main.main-grid {
   padding: 1rem;
-  grid-gap: 1rem 2rem;
+  grid-gap: 2% 2%;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 2fr minmax(100px, 1fr);
+  grid-template-columns: 18% 39% 39%;
+  grid-template-areas:
+    "control-panel input1 pdf-view"
+    "control-panel input2 pdf-view";
   flex: 1;
 }
+
 
 .input-section {
   display: flex;
@@ -81,8 +90,6 @@ main.main-grid {
 }
 
 .control-panel {
-  grid-column-start: 1;
-  grid-column-start: 2;
   grid-row-start: 1;
   grid-row-end: 3;
 
@@ -93,6 +100,19 @@ main.main-grid {
 
 .control-panel select {
   width: 100%;
+}
+
+.pdf-viewer {
+  width: 100%;
+  height: 96%;
+  object-fit: cover;
+}
+
+.pdf-viewer .h2 {
+  font-size: 1.5rem;
+  display: inline-block;
+  margin: 1.245rem 0 1rem;
+  font-weight: bold;
 }
 
 #select-method {

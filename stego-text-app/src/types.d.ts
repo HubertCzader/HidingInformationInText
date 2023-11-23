@@ -3,6 +3,8 @@ export type MethodConfig = Record<
   string | number | boolean | string[] | number[]
 >;
 
+export type PdfFormat = ArrayBuffer;
+
 export interface Method<MethodConfig = {}> {
   name: string;
   defaultCover?: string;
@@ -12,5 +14,5 @@ export interface Method<MethodConfig = {}> {
     cover: string,
     stego: string,
     config: MethodConfig
-  ) => Promise<void>;
+  ) => Promise<PdfFormat | void>;
 }

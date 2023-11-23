@@ -610,6 +610,11 @@ vite@^4.4.4:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-pdf-embed@1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/vue-pdf-embed/-/vue-pdf-embed-1.2.1.tgz#013ce78005b548eb5c74f2026afc00b633f00e3d"
+  integrity sha512-4uUm4wxaEGT9cS1cyuagAmMJjBxfQXWG1MvdGPesD3CiXhhSp4i0VMUCYwhFXtZ5+QqWv4mXbfLJ29Wpt+Qcuw==
+
 vue-template-compiler@^2.7.14:
   version "2.7.15"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.15.tgz#ec88ba8ceafe0f17a528b89c57e01e02da92b0de"

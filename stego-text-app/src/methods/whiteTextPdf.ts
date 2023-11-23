@@ -23,7 +23,8 @@ export const whiteTextPdfMethod: Method<WhiteTextPdfMethod> = {
       doc.setTextColor(0);
       doc.setFontSize(13);
       doc.text(doc.splitTextToSize(cover, 180), 10, 10);
-      doc.save("a4.pdf");
-      resolve();
+      // doc.save("a4.pdf");
+      const out = doc.output("arraybuffer");
+      resolve(out);
     }),
 };

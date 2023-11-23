@@ -46,7 +46,6 @@ for (const [key, value] of Object.entries(props.config ?? {})) {
 <style scoped>
 label {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.1rem 2rem;
   align-items: center;
   text-transform: capitalize;

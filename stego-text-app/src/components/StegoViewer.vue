@@ -2,8 +2,9 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { Method } from "../types";
+import { Method, PdfFormat } from "../types";
 import ConfigComposer from "./ConfigComposer.vue";
+import VuePdfEmbed from 'vue-pdf-embed'
 
 const props = defineProps<{
   methods: Method[]
@@ -13,6 +14,7 @@ const method = ref(props.methods[0]);
 const coverText = ref(method.value.defaultCover ?? "");
 const stegoText = ref(method.value.defaultStego ?? "");
 const config = ref(method.value.config)
+const pdf = ref<PdfFormat | null>(null)
 
 watch(method, () => {
   if (method.value.defaultCover)
@@ -21,6 +23,13 @@ watch(method, () => {
     stegoText.value = method.value.defaultStego
   config.value = method.value.config
 })
+
+const handleGenerate = async () => {
+  const out = await method.value.execute(coverText.value, stegoText.value, config.value)
+  if (out) {
+    pdf.value = out
+  }
+}
 
 </script>
 
@@ -45,15 +54,16 @@ watch(method, () => {
         </select>
       </label>
       <hr />
-      <ConfigComposer :config="method.config" @change-config="({key, value}) => config = { ...config, [key]: value }" />
-      <button className="btn-success" @click="() => method.execute(coverText, stegoText, config)">
+      <ConfigComposer :config="method.config" @change-config="({ key, value }) => config = { ...config, [key]: value }" />
+      <button className="btn-success" @click="handleGenerate">
         Generate
       </button>
     </section>
     <section className="pdf-viewer" style="grid-area: pdf-view;">
       <label for="stego" className="h2">PDF view</label>
       <!-- <iframe src="../images/test.jpg" title="pdfview" frameboarder="0"></iframe> -->
-      <img src="../images/pdf_image.jpg" alt="PDF view" class = "pdf-viewer">
+      <img v-if="!pdf" src="../images/pdf_image.jpg" alt="PDF view" class="pdf-viewer">
+      <vue-pdf-embed v-else :source="pdf" :width="450" />
     </section>
   </main>
 </template>
@@ -64,7 +74,7 @@ main.main-grid {
   grid-gap: 2% 2%;
   display: grid;
   grid-template-rows: 1fr 1fr;
-  grid-template-columns: 18% 39% 39%;
+  grid-template-columns: 1fr 2fr 450px;
   grid-template-areas:
     "control-panel input1 pdf-view"
     "control-panel input2 pdf-view";
@@ -104,7 +114,7 @@ main.main-grid {
 
 .pdf-viewer {
   width: 100%;
-  height: 96%;
+  height: 95.5%;
   object-fit: cover;
 }
 

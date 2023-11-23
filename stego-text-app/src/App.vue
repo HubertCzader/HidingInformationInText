@@ -23,8 +23,8 @@ const testMethod: Method<TestMethodConfig> = {
 }
 
 const methods: Method<any>[] = [
-  testMethod,
   whiteTextPdfMethod,
+  testMethod,
 ]
 </script>
 

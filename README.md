@@ -12,8 +12,9 @@ Projekt z przedmiotu Staganografia na kierunku Informatyka Akademii Górniczo-Hu
 1. [Wstęp](#1-wstęp)
 2. [Aktualny stan wiedzy](#2-aktualny-stan-wiedzy)
 3. [Przegląd literatury](#3-przegląd-literatury)
-4. [Zaproponowane algorytmy](#4-zaproponowane-algorytmy)
-5. [Bibliografia](#5-bibliografia)
+4. [Charakterystyka problemu](#4-charakterystyka-problemu)
+5. [Zaproponowane algorytmy](#5-zaproponowane-algorytmy)
+6. [Bibliografia](#5-bibliografia)
 
 ## 1. Wstęp
 
@@ -125,8 +126,22 @@ W przeciwieństwie do metody pierwszej, metoda ta jest możliwa do zaimplementow
 
 Metoda `Kashida-PS` poprzez wykorzystanie kashidy oraz znaków spacji jak i liter osiąga natomiast większą pojemność.
 
+## 4. Charakterystyka problemu
 
-## 4. Zaproponowane algorytmy
+Ukrywanie informacji w tekście poprzez dobranie koloru do koloru tła to jedna z form tzw. "tekstury przemyślanej" (ang. steganografii), która polega na ukrywaniu danych w sposób, który jest trudny do zauważenia przez przeciętnego obserwatora. W przypadku ukrywania informacji poprzez dobór koloru tekstu do koloru tła, głównym celem jest minimalizacja różnic percepcyjnych pomiędzy tekstem a tłem, aby tekst był trudny do zauważenia wizualnie.
+
+### Cel i kontekst
+Głównym celem jest ukrycie istnienia tekstu przed przypadkowym lub nieautoryzowanym obserwatorem. W metodzie tej kolor tekst jest dobierany tak, aby był bardzo zbliżony do koloru tła. Często są to kolory niemożliwe do odróżnienia przez ludzkie oko, najlepiej jest stosować jednak kolor identyczny z kolorem tła. Do najczęstszych zastosowań tej metody można zaliczyć ukrywanie informacji w plakatach lub dokumentach, w szczególności dokumentach elektronicznych w formacie pdf.
+
+### Wyzwania i zagrożenia
+  1. Podstawowym wyzwaniem jest utrzymanie równowagi pomiędzy skutecznym ukryciem informacji a możliwością jej wykrycia przez odpowiednie narzędzia. Stosowanie zbyt skomplikowanych technik może prowadzić do trudności w rozszyfrowaniu informacji, nawet dla zamierzonych odbiorców.
+  2. Techniki ukrywania informacji, zwłaszcza w kontekście steganografii, mogą być wykorzystywane w celach nielegalnych, naprzykład ukrywanie treści przestępczych.
+  3. W miarę postępu technologii analizy obrazu i komputerowego widzenia staje się łatwiejsze odkrywanie subtelnych różnic kolorystycznych, co może zwiększyć ryzyko wykrycia ukrytego tekstu. W tym celu w przedstawionych metodach dobrano kolor czcionki ukrywanego tekstu do koloru tła, co znacząco utrudnia szansę na wykrycie tekstu przez metody widzenia komputerowego.
+  4. Ukrywanie informacji w treściach bez wiedzy lub zgody użytkowników narusza zasady prywatności.
+  5. Ukrywanie informacji, zwłaszcza w kontekście komunikacji elektronicznej, może naruszać prawo, jeśli jest stosowane w sposób nielegalny, szkodliwy lub niezgodny z regulacjami dotyczącymi prywatności.
+
+
+## 5. Zaproponowane algorytmy
 
 ### Ukrywanie informacji w tekście poprzez dostosowanie koloru czcionki do koloru tła
 

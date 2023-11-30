@@ -14,7 +14,7 @@ Projekt z przedmiotu Staganografia na kierunku Informatyka Akademii Górniczo-Hu
 3. [Przegląd literatury](#3-przegląd-literatury)
 4. [Charakterystyka problemu](#4-charakterystyka-problemu)
 5. [Zaproponowane algorytmy](#5-zaproponowane-algorytmy)
-6. [Bibliografia](#5-bibliografia)
+6. [Bibliografia](#6-bibliografia)
 
 ## 1. Wstęp
 
@@ -149,7 +149,7 @@ Algorytm rozpoczyna się od wybrania wiadomości ukrytrej, która może przyją�
 
 Należy jednakże pamiętać, iż niektóre programy lub narzędzia do edycji tekstu mogą wyposażone być w funkcje automatycznego wykrywania i korekty kontrastu między kolorem czcionki a tłem. W przypadku, gdy różnica w kontraście między kolorami ukrytego tekstu a tła jest minimalna (niezauważalna dla oka), takie programy mogą wykryć ukrytą wiadomość poprzez detekcję różnic w kontrastach.
 
-## 5. Bibliografia
+## 6. Bibliografia
 
 ###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf
 ###### [2] https://arxiv.org/ftp/arxiv/papers/1302/1302.2718.pdf

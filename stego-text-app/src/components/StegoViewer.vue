@@ -4,42 +4,51 @@
 import { ref, watch } from "vue";
 import { Method, PdfFormat } from "../types";
 import ConfigComposer from "./ConfigComposer.vue";
-import VuePdfEmbed from 'vue-pdf-embed'
+import VuePdfEmbed from "vue-pdf-embed";
+import { saveByteArray } from "../utils/file";
 
 const props = defineProps<{
-  methods: Method[]
-}>()
+  methods: Method[];
+}>();
 
 const method = ref(props.methods[0]);
 const coverText = ref(method.value.defaultCover ?? "");
 const stegoText = ref(method.value.defaultStego ?? "");
-const config = ref(method.value.config)
-const pdf = ref<PdfFormat | null>(null)
+const config = ref(method.value.config);
+const pdf = ref<PdfFormat | null>(null);
 
 watch(method, () => {
-  if (method.value.defaultCover)
-    coverText.value = method.value.defaultCover
-  if (method.value.defaultStego)
-    stegoText.value = method.value.defaultStego
-  config.value = method.value.config
-})
+  if (method.value.defaultCover) coverText.value = method.value.defaultCover;
+  if (method.value.defaultStego) stegoText.value = method.value.defaultStego;
+  config.value = method.value.config;
+});
 
 const handleGenerate = async () => {
-  const out = await method.value.execute(coverText.value, stegoText.value, config.value)
+  const out = await method.value.execute(
+    coverText.value,
+    stegoText.value,
+    config.value
+  );
   if (out) {
-    pdf.value = out
+    pdf.value = out;
   }
-}
+};
 
+const downloadPdf = () => {
+  const name = `${method.value.name} method`
+    .toLowerCase()
+    .replaceAll(/\s+/g, "_");
+  saveByteArray(name, pdf);
+};
 </script>
 
 <template>
   <main className="main-grid">
-    <section className="input-section" style="grid-area: input1;">
+    <section className="input-section" style="grid-area: input1">
       <label for="cover" className="h2">Cover text</label>
       <textarea v-model="coverText" id="cover" name="cover-text" />
     </section>
-    <section className="input-section" style="grid-area: input2;">
+    <section className="input-section" style="grid-area: input2">
       <label for="stego" className="h2">Stego text</label>
       <textarea v-model="stegoText" id="tego" name="cover-text" />
     </section>
@@ -48,22 +57,30 @@ const handleGenerate = async () => {
       <label>
         <span>Selected method</span><br />
         <select v-model="method" id="select-method">
-          <option v-for="method in methods" :value="method">
+          <option v-for="method in methods" :value="method" :key="method">
             {{ method.name }}
           </option>
         </select>
       </label>
       <hr />
-      <ConfigComposer :config="method.config" @change-config="({ key, value }) => config = { ...config, [key]: value }" />
-      <button className="btn-success" @click="handleGenerate">
-        Generate
-      </button>
+      <ConfigComposer
+        :config="method.config"
+        @change-config="
+          ({ key, value }) => (config = { ...config, [key]: value })
+        "
+      />
+      <button className="btn-success" @click="handleGenerate">Generate</button>
     </section>
-    <section className="pdf-viewer" style="grid-area: pdf-view;">
+    <section className="pdf-section" style="grid-area: pdf-view">
       <label for="stego" className="h2">PDF view</label>
-      <!-- <iframe src="../images/test.jpg" title="pdfview" frameboarder="0"></iframe> -->
-      <img v-if="!pdf" src="../images/pdf_image.jpg" alt="PDF view" class="pdf-viewer">
+      <img
+        v-if="!pdf"
+        src="../images/pdf_image.jpg"
+        alt="PDF view"
+        class="pdf-viewer"
+      />
       <vue-pdf-embed v-else :source="pdf" :width="450" />
+      <button v-if="!!pdf" @click="downloadPdf">Download</button>
     </section>
   </main>
 </template>
@@ -80,7 +97,6 @@ main.main-grid {
     "control-panel input2 pdf-view";
   flex: 1;
 }
-
 
 .input-section {
   display: flex;
@@ -112,17 +128,28 @@ main.main-grid {
   width: 100%;
 }
 
-.pdf-viewer {
-  width: 100%;
-  height: 95.5%;
-  object-fit: cover;
+.pdf-section {
+  display: flex;
+  flex-direction: column;
 }
 
-.pdf-viewer .h2 {
+.pdf-section button {
+  width: 50%;
+  align-self: flex-end;
+  margin-top: auto;
+}
+
+.pdf-section .h2 {
   font-size: 1.5rem;
   display: inline-block;
   margin: 1.245rem 0 1rem;
   font-weight: bold;
+}
+
+.pdf-viewer {
+  width: 100%;
+  height: 636px;
+  object-fit: cover;
 }
 
 #select-method {

@@ -11,8 +11,9 @@ export interface Method<MethodConfig = {}> {
   defaultStego?: string;
   config: MethodConfig;
   execute: (
-    cover: string,
+    source: PdfFormat,
     stego: string,
     config: MethodConfig
   ) => Promise<PdfFormat | void>;
+  decode: (source: PdfFormat, config: MethodConfig) => Promise<string>;
 }

@@ -16,47 +16,30 @@ for (const [key, value] of Object.entries(props.config ?? {})) {
 </script>
 
 <template v-if="!!props">
-  <div>
-    <table v-for="(value, name) in props.config" :key="name">
-      <label v-if="typeof value === 'string'">
-        <span>{{ name }}</span>
-        <input
-          type="text"
-          :value="props.config?.[name]"
-          @input="(e) => update(name, e?.target?.value)"
-        />
-      </label>
+  <div v-for="(value, name) in props.config" :key="name">
+    <label v-if="typeof value === 'string'">
+      <div>{{ name }}</div>
+      <input type="text" :value="props.config?.[name]" @input="(e) => update(name, e?.target?.value)" />
+    </label>
 
-      <label v-else-if="typeof value === 'number'">
-        <span>{{ name }}</span>
-        <input
-          type="number"
-          :value="props.config?.[name]"
-          @input="(e) => update(name, parseFloat(e?.target?.value))"
-        />
-      </label>
+    <label v-else-if="typeof value === 'number'">
+      <div>{{ name }}</div>
+      <input type="number" :value="props.config?.[name]" @input="(e) => update(name, parseFloat(e?.target?.value))" />
+    </label>
 
-      <label v-else-if="typeof value === 'boolean'">
-        <span>{{ name }}</span>
-        <input
-          type="checkbox"
-          :checked="Boolean(props.config?.[name])"
-          @input="(e) => update(name, e?.target?.checked)"
-        />
-      </label>
+    <label v-else-if="typeof value === 'boolean'">
+      <div>{{ name }}</div>
+      <input type="checkbox" :checked="Boolean(props.config?.[name])" @input="(e) => update(name, e?.target?.checked)" />
+    </label>
 
-      <label v-else-if="Array.isArray(value)">
-        <span>{{ name }}</span>
-        <select
-          :defaultValue="props.config?.[name]?.[0]"
-          @input="(e) => update(name, e?.target?.value)"
-        >
-          <option v-for="item in value" :value="item">
-            {{ item }}
-          </option>
-        </select>
-      </label>
-    </table>
+    <label v-else-if="Array.isArray(value)">
+      <div>{{ name }}</div>
+      <select :defaultValue="props.config?.[name]?.[0]" @input="(e) => update(name, e?.target?.value)">
+        <option v-for="item in value" :value="item">
+          {{ item }}
+        </option>
+      </select>
+    </label>
   </div>
 </template>
 
@@ -65,6 +48,7 @@ label {
   display: flex;
   gap: 0.1rem 2rem;
   align-items: center;
+  justify-content: space-between;
   text-transform: capitalize;
 }
 

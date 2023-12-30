@@ -1,9 +1,8 @@
 import { Method } from "../types";
+import { textFromPdf } from "../utils/file";
+import { escapeRegExp } from "../utils/regex";
 import { lorem } from "../utils/text";
 import { PDFDocument, rgb } from "pdf-lib";
-import { getDocument, GlobalWorkerOptions } from "pdfjs-dist";
-// import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-// GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 interface WhiteTextPdfMethod {
   r: number;
@@ -24,7 +23,6 @@ export const whiteTextPdfMethod: Method<WhiteTextPdfMethod> = {
       const firstPage = pdfDoc.getPage(0);
       const { height } = firstPage.getSize();
       const payload = config.hash + stego + config.hash;
-      console.log("Hiding", payload);
       firstPage.drawText(payload, {
         x: 10,
         y: height - config.fontSize,
@@ -34,16 +32,10 @@ export const whiteTextPdfMethod: Method<WhiteTextPdfMethod> = {
       });
       resolve(await pdfDoc.save());
     }),
-  decode: (source, config) =>
-    new Promise(async (resolve) => {
-      console.log("extracting");
-
-      // getDocument({ data: source })
-      //   .promise.then((doc) => doc.getPage(1))
-      //   .then((page) => page.getTextContent())
-      //   .then((textContent) => {
-      //     console.log("TEXT IS", textContent);
-      //   });
-      resolve("banana");
-    }),
+  decode: async (source, config) => {
+    const content = await textFromPdf(source);
+    const h = escapeRegExp(config.hash);
+    const match = content.match(new RegExp(`${h}(.*)${h}`));
+    return match?.[1] ?? "No message detected";
+  },
 };

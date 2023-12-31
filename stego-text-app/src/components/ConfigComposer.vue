@@ -19,22 +19,24 @@ for (const [key, value] of Object.entries(props.config ?? {})) {
   <div v-for="(value, name) in props.config" :key="name">
     <label v-if="typeof value === 'string'">
       <div>{{ name }}</div>
-      <input type="text" :value="props.config?.[name]" @input="(e) => update(name, e?.target?.value)" />
+      <input type="text" :value="props.config?.[name]" @input="(e: any) => update(name, e?.target?.value)" />
     </label>
 
     <label v-else-if="typeof value === 'number'">
       <div>{{ name }}</div>
-      <input type="number" :value="props.config?.[name]" @input="(e) => update(name, parseFloat(e?.target?.value))" />
+      <input type="number" :value="props.config?.[name]"
+        @input="(e: any) => update(name, parseFloat(e?.target?.value))" />
     </label>
 
     <label v-else-if="typeof value === 'boolean'">
       <div>{{ name }}</div>
-      <input type="checkbox" :checked="Boolean(props.config?.[name])" @input="(e) => update(name, e?.target?.checked)" />
+      <input type="checkbox" :checked="Boolean(props.config?.[name])"
+        @input="(e: any) => update(name, e?.target?.checked)" />
     </label>
 
     <label v-else-if="Array.isArray(value)">
       <div>{{ name }}</div>
-      <select :defaultValue="props.config?.[name]?.[0]" @input="(e) => update(name, e?.target?.value)">
+      <select @input="(e: any) => update(name, e?.target?.value)">
         <option v-for="item in value" :value="item">
           {{ item }}
         </option>

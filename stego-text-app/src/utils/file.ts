@@ -31,14 +31,18 @@ export async function textFromPdf(pdf: PdfFormat): Promise<string> {
       // Get the text content of the page
       await pdfDoc
         .getPage(pageNum)
-        .then(function (page: any) {
-          return page.getTextContent();
-        })
-        .then(function (content: any) {
+        .then((page: any) => page.getTextContent())
+        .then((content: any) => {
           // Concatenate text content of each page
           textContent += content.items.map((item: any) => item.str).join(" ");
         });
     }
     return textContent;
   });
+}
+
+export function copyPdfBuffer(buff: PdfFormat): PdfFormat {
+  var dst = new ArrayBuffer(buff.byteLength);
+  new Uint8Array(dst).set(new Uint8Array(buff));
+  return dst;
 }

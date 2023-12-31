@@ -5,7 +5,7 @@ import { ref, watch } from "vue";
 import { Method, PdfFormat } from "../types";
 import ConfigComposer from "./ConfigComposer.vue";
 import VuePdfEmbed from "vue-pdf-embed";
-import { saveByteArray, textToPdf } from "../utils/file";
+import { copyPdfBuffer, saveByteArray, textToPdf } from "../utils/file";
 
 const props = defineProps<{
   methods: Method[];
@@ -46,14 +46,14 @@ const handleGenerate = async () => {
     config.value
   );
   if (out) {
-    console.log("out is", out)
     pdf.value = out;
   }
 };
 
 const handleDecode = async () => {
   if (!fileUpload.value) return
-  decodedText.value = await method.value.decode(fileUpload.value, config.value)
+  const copy = copyPdfBuffer(fileUpload.value)
+  decodedText.value = await method.value.decode(copy, config.value)
 }
 
 const downloadPdf = () => {
@@ -89,7 +89,7 @@ const downloadPdf = () => {
           <input type="checkbox" v-model="usePlaintext" />
         </label>
       </div>
-      <input v-if="!usePlaintext || decode" type="file" v-on:change="e => onFileChange(e.target.files[0])"
+      <input v-if="!usePlaintext || decode" type="file" v-on:change="(e: any) => onFileChange(e.target.files[0])"
         accept="application/pdf" />
       <textarea v-else v-model="coverText" id="cover" name="cover-text" />
 

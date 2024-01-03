@@ -1,68 +1,61 @@
 <!-- Renders custom config edit panel -->
 
 <script setup lang="ts">
+import { watch } from "vue";
 import { MethodConfig } from "../types";
+import InputSwitch from "primevue/inputswitch"
+import InputText from "primevue/inputtext"
+import InputNumber from "primevue/inputnumber"
+import Dropdown from "primevue/dropdown";
 
 const props = defineProps<{
-  config?: MethodConfig;
+  template: MethodConfig,
+  config: MethodConfig
 }>();
 
 const emit = defineEmits(["changeConfig"]);
-const update = (key: String, value: string | number | boolean) =>
-  emit("changeConfig", { key, value });
-for (const [key, value] of Object.entries(props.config ?? {})) {
-  if (Array.isArray(value)) update(key, value[0]);
-}
+const update = (key: String, value: string | number | boolean) => emit("changeConfig", { key, value });
+
+watch(() => props.template, () => {
+  // initialize select inputs
+  for (const [key, value] of Object.entries(props.template ?? {})) {
+    if (Array.isArray(value)) update(key, value[0]);
+  }
+});
 </script>
 
 <template v-if="!!props">
-  <div v-for="(value, name) in props.config" :key="name">
-    <label v-if="typeof value === 'string'">
-      <div>{{ name }}</div>
-      <input type="text" :value="props.config?.[name]" @input="(e: any) => update(name, e?.target?.value)" />
-    </label>
+  <div v-for="(value, name) in props.template" :key="name">
+    <div v-if="typeof value === 'string'">
+      <label :for="name">{{ name }}</label>
+      <InputText :id="name" :model-value="String(props.config?.[name])"
+        @update:modelValue="val => val && update(name, val)" />
+    </div>
 
-    <label v-else-if="typeof value === 'number'">
-      <div>{{ name }}</div>
-      <input type="number" :value="props.config?.[name]"
-        @input="(e: any) => update(name, parseFloat(e?.target?.value))" />
-    </label>
+    <div v-if="typeof value === 'number'">
+      <label :for="name">{{ name }}</label>
+      <InputNumber :id="name" :model-value="Number(props.config?.[name])" :format="false"
+        @update:modelValue="val => update(name, val)" />
+    </div>
 
-    <label v-else-if="typeof value === 'boolean'">
-      <div>{{ name }}</div>
-      <input type="checkbox" :checked="Boolean(props.config?.[name])"
-        @input="(e: any) => update(name, e?.target?.checked)" />
-    </label>
+    <div v-if="typeof value === 'boolean'">
+      <label :for="name">{{ name }}</label>
+      <InputSwitch :id="name" :model-value="Boolean(props.config?.[name])"
+        @update:modelValue="val => update(name, val)" />
+    </div>
 
-    <label v-else-if="Array.isArray(value)">
-      <div>{{ name }}</div>
-      <select @input="(e: any) => update(name, e?.target?.value)">
-        <option v-for="item in value" :value="item">
-          {{ item }}
-        </option>
-      </select>
-    </label>
+    <div v-else-if="Array.isArray(value)">
+      <label :for="name">{{ name }}</label>
+      <Dropdown :name="name" :model-value="props.config?.[name]" :options="value"
+        @update:model-value="(val: any) => update(name, val)" />
+    </div>
   </div>
 </template>
 
 <style scoped>
 label {
-  display: flex;
-  gap: 0.1rem 2rem;
-  align-items: center;
-  justify-content: space-between;
   text-transform: capitalize;
-}
-
-input:not([type="checkbox"]),
-textarea,
-select {
-  flex: 1;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-  margin: 0;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 </style>

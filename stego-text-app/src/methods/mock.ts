@@ -12,10 +12,10 @@ export const mockMethod: Method<TestMethodConfig> = {
   defaultCover: "Cover text",
   defaultStego: "Stego text",
   config: {
-    age: 4,
-    boolean: false,
-    select: ["apple", "banana", "cinamon"],
     name: "Jimmy",
+    age: 4,
+    select: ["apple", "banana", "cinamon"],
+    boolean: false,
   },
   // using promises in case the stego operation takes a while
   execute: (_, stego, config) =>

@@ -77,7 +77,7 @@ const downloadPdf = () => {
         </select>
       </label>
       <hr />
-      <ConfigComposer :config="method.config"
+      <ConfigComposer :template="method.config" :config="config"
         @change-config="({ key, value }) => (config = { ...config, [key]: value })" />
       <button className=" btn-success" @click="handleGenerate">Generate</button>
     </section>

@@ -1,81 +1,22 @@
-<!-- Renders text inputs and control panel with active method selection -->
+<!-- Renders the control panel as well as the encoder and decoder tabs -->
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { Method, PdfFormat } from "../types";
+import { ref } from "vue";
+import { Method } from "../types";
 import ConfigComposer from "./ConfigComposer.vue";
-import VuePdfEmbed from "vue-pdf-embed";
-import { copyPdfBuffer, saveByteArray, textToPdf } from "../utils/file";
+import Decoder from "./Decoder.vue"
+import Encoder from "./Encoder.vue"
 import Dropdown from "primevue/dropdown";
-import Button from "primevue/button";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
-import Skeleton from "primevue/skeleton";
-import InputSwitch from "primevue/inputswitch";
-import FileUpload from 'primevue/fileupload';
-import Textarea from "primevue/textarea";
 
 const props = defineProps<{
   methods: Method[];
 }>();
 
 const method = ref(props.methods[0]);
-const coverText = ref(method.value.defaultCover ?? "");
-const stegoText = ref(method.value.defaultStego ?? "");
-const decodedText = ref("")
 const config = ref(method.value.config);
-const pdf = ref<PdfFormat | null>(null);
-const usePlaintext = ref(false);
-const encodeUpload = ref<ArrayBuffer | null>(null);
-const decodeUpload = ref<ArrayBuffer | null>(null);
 
-watch(method, () => {
-  if (method.value.defaultCover) coverText.value = method.value.defaultCover;
-  if (method.value.defaultStego) stegoText.value = method.value.defaultStego;
-  config.value = method.value.config;
-});
-
-const onFileChange = (files: File | File[], isEncode: boolean) => {
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    const res = ev.target?.result
-    if (isEncode) {
-      encodeUpload.value = res as ArrayBuffer ?? null
-    } else {
-      decodeUpload.value = res as ArrayBuffer ?? null
-    }
-  }
-  const file = [files].flat()[0]
-  reader.readAsArrayBuffer(file);
-}
-
-const canEncode = computed(() => stegoText && usePlaintext.value ? !!coverText.value : !!encodeUpload.value)
-
-const handleGenerate = async () => {
-  const source = usePlaintext.value ? await textToPdf(coverText.value) : encodeUpload.value;
-  if (!source) return
-  const out = await method.value.execute(
-    source,
-    stegoText.value,
-    config.value
-  );
-  if (out) {
-    pdf.value = out;
-  }
-};
-
-const handleDecode = async () => {
-  if (!decodeUpload.value) return
-  const copy = copyPdfBuffer(decodeUpload.value)
-  decodedText.value = await method.value.decode(copy, config.value)
-}
-
-const downloadPdf = () => {
-  const name = `${method.value.name} method`
-    .toLowerCase()
-    .replaceAll(/\s+/g, "_");
-  pdf.value && saveByteArray(name, pdf.value);
-};
 </script>
 
 <template>
@@ -95,83 +36,16 @@ const downloadPdf = () => {
     </section>
     <TabView style="flex: 1; display: flex; flex-direction: column;">
       <TabPanel header="Encode">
-        <div class="encode-grid">
-          <div style="grid-column: 1/4; display: flex; gap: 2rem; align-items: center;">
-            <label for="use-plaintext">Use plaintext source</label>
-            <InputSwitch name="use-plaintext" v-model="usePlaintext" />
-          </div>
-          <div class="tall">
-            <div v-if="!usePlaintext" class="tall">
-              <div style="margin-bottom: 0.75rem">
-                Cover source
-              </div>
-              <div class="pdf-wrapper">
-                <Skeleton v-if="!encodeUpload" style="flex: 1" />
-                <vue-pdf-embed v-else :source="encodeUpload"
-                  style="position:absolute; width: 100%; left: 50%; transform: translateX(-50%)" />
-              </div>
-            </div>
-            <div v-else class="tall" style="gap: 0.5rem">
-              <label for="cover">
-                Cover text
-              </label>
-              <Textarea id="cover" name="cover-text" style="flex: 1" v-model="coverText" />
-            </div>
-          </div>
-          <div>
-            <FileUpload v-if="!usePlaintext" mode="basic" style="width: 100%; height: 2.75rem; margin-top: 0.5rem;"
-              name="encode-source" :multiple="false" accept="application/pdf" @select="e => onFileChange(e.files, true)"
-              chooseLabel="Choose source file" customUpload @uploader="() => encodeUpload = null" />
-          </div>
-          <div class="tall">
-            <label for="secret" style="margin-bottom:0.5rem">
-              Message to hide
-            </label>
-            <Textarea v-model="stegoText" id="secret" name="secret-text" style="flex: 1" />
-          </div>
-          <Button :disabled="!canEncode" label="Encode" @click="handleGenerate" outlined />
-          <div class="tall">
-            <div style="margin-bottom: 0.5rem">
-              Output
-            </div>
-            <div class="pdf-wrapper">
-              <Skeleton v-if="!pdf" style="flex: 1" animation="none" />
-              <vue-pdf-embed v-else :source="pdf"
-                style="position:absolute; width: 100%; left: 50%; transform: translateX(-50%)" />
-            </div>
-          </div>
-          <Button :disabled="!pdf" label="Download" outlined @click="downloadPdf" />
-        </div>
+        <Encoder :method="method" :config="config" />
       </TabPanel>
       <TabPanel header="Decode">
-        <div class="decode-grid">
-          <div class="tall">
-            <div style="margin-bottom: 0.75rem">
-              Stego source
-            </div>
-            <div class="pdf-wrapper">
-              <Skeleton v-if="!decodeUpload" style="flex: 1" animation="wave" />
-              <vue-pdf-embed v-else :source="decodeUpload"
-                style="position:absolute; width: 100%; left: 50%; transform: translateX(-50%)" />
-            </div>
-          </div>
-          <FileUpload mode="basic" name="decode-source" :multiple="false" accept="application/pdf"
-            style="width: 100%; height: 2.75rem; margin-top: 0.5rem;" @select="e => onFileChange(e.files, false)"
-            customUpload @uploader="() => decodeUpload = null" chooseLabel="Choose stego file" />
-          <div class="tall">
-            <label for="decoded" style="margin-bottom: 0.5rem">
-              Decoded message
-            </label>
-            <Textarea v-model="decodedText" readonly id="decoded" name="decoded-message" style="flex: 1" />
-          </div>
-          <Button :disabled="!decodeUpload" label="Decode" outlined @click="handleDecode" />
-        </div>
+        <Decoder :method="method" :config="config" />
       </TabPanel>
     </TabView>
   </main>
 </template>
 
-<style scoped>
+<style>
 main.main-grid {
   padding: 2rem;
   display: flex;

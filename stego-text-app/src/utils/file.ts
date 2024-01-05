@@ -46,3 +46,13 @@ export function copyPdfBuffer(buff: PdfFormat): PdfFormat {
   new Uint8Array(dst).set(new Uint8Array(buff));
   return dst;
 }
+
+export async function readFile(file: File): Promise<PdfFormat> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      resolve((ev.target?.result as ArrayBuffer) ?? null);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+}

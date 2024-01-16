@@ -28,7 +28,7 @@ const handleGenerate = async () => {
     const out = await props.method.execute(
         source,
         stegoText.value,
-        props.config.value
+        props.config
     );
     if (out) {
         pdf.value = out;

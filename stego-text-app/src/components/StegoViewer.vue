@@ -6,6 +6,7 @@ import { Method } from "../types";
 import ConfigComposer from "./ConfigComposer.vue";
 import Decoder from "./Decoder.vue"
 import Encoder from "./Encoder.vue"
+import Help from "./Help.vue"
 import Dropdown from "primevue/dropdown";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
@@ -40,6 +41,9 @@ const config = ref(method.value.config);
       </TabPanel>
       <TabPanel header="Decode">
         <Decoder :method="method" :config="config" />
+      </TabPanel>
+      <TabPanel header="Help">
+        <Help :method="method" :config="config" />
       </TabPanel>
     </TabView>
   </main>

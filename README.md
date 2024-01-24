@@ -149,6 +149,13 @@ Algorytm rozpoczyna się od wybrania wiadomości ukrytrej, która może przyją�
 
 Należy jednakże pamiętać, iż niektóre programy lub narzędzia do edycji tekstu mogą wyposażone być w funkcje automatycznego wykrywania i korekty kontrastu między kolorem czcionki a tłem. W przypadku, gdy różnica w kontraście między kolorami ukrytego tekstu a tła jest minimalna (niezauważalna dla oka), takie programy mogą wykryć ukrytą wiadomość poprzez detekcję różnic w kontrastach.
 
+
+### Ukrywanie informacji w odstępach pomiędzy wyrazami (zastępowanie spacji literami ukrywanej wiadomości)
+
+Algorytm rozpoczyna od wyboru wiadomości, która ma zostać ukryta. Wiadomość jest trzymana w pamięci algorytmu jako ciąg znaków, który będzie używany do zamiany spacji w dokumencie PDF. Jeżeli plik wejściowy jest plikiem PDF, algorytm odczytuje jego zawartość. Wszystkie elementy dokumentu są przeglądane w poszukiwaniu spacji, które mogą zostać zastąpione. W miejscach, gdzie w dokumencie PDF znajdują się spacje, algorytm wykonuje zamianę tych spacji na kolejne litery z ukrywanej wiadomości. Każda litera z wiadomości jest poprzedzona znakiem hash, aby można było łatwo zidentyfikować i odczytać ukryte znaki w dokumencie. Proces zamiany jest zachłanny - algorytm nie cofa się ani nie reorganizuje już ukrytych liter. Kontynuuje iteracyjnie zastępowanie spacji literami z wiadomości, aż do momentu, gdy cała wiadomość zostanie ukryta w dokumencie. Po ukryciu całej wiadomości algorytm zapisuje zmodyfikowany plik PDF. Użytkownik otrzymuje plik PDF z ukrytą wiadomością, niezauważalną na pierwszy rzut oka.
+
+Warto zauważyć, że skuteczność takiego algorytmu zależy od długości i charakteru ukrywanej wiadomości oraz od ilości i rozmieszczenia spacji w dokumencie PDF. Ponadto, jeśli wiadomość jest dłuższa niż liczba spacji w dokumencie, algorytm nie będzie w stanie ukryć jej w całości.
+
 ## 6. Bibliografia
 
 ###### [1] https://www.researchgate.net/profile/Anirudra-Diwakar/publication/371286387_A_Novel_Approach_to_Text_Steganography/links/647cad9f79a72237650da99b/A-Novel-Approach-to-Text-Steganography.pdf

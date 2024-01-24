@@ -1,2 +1,2 @@
 export { whiteTextPdfMethod } from "./whiteTextPdf";
-export { mockMethod } from "./mock";
+export { spaceCipher } from "./spaceCipher";

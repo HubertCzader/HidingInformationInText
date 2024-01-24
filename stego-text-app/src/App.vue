@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import StegoViewer from './components/StegoViewer.vue';
-import { whiteTextPdfMethod, mockMethod } from './methods';
+import { whiteTextPdfMethod, spaceCipher } from './methods';
 import { Method } from './types';
 
 const methods: Method<any>[] = [
   whiteTextPdfMethod,
-  mockMethod
+  spaceCipher
 ]
 </script>
 

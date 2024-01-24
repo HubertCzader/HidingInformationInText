@@ -47,7 +47,8 @@ const handleDecode = async () => {
             <label for="decoded" style="margin-bottom: 0.5rem">
                 Decoded message
             </label>
-            <Textarea v-model="decodedText" readonly id="decoded" name="decoded-message" style="flex: 1" />
+            <Textarea v-model="decodedText" readonly id="decoded" name="decoded-message" style="flex: 1"
+                spellcheck="false" />
         </div>
         <Button :disabled="!decodeUpload" label="Decode" outlined @click="handleDecode" />
     </div>

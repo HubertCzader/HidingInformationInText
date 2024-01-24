@@ -1,7 +1,7 @@
 <!-- Renders the control panel as well as the encoder and decoder tabs -->
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Method } from "../types";
 import ConfigComposer from "./ConfigComposer.vue";
 import Decoder from "./Decoder.vue"
@@ -16,7 +16,11 @@ const props = defineProps<{
 }>();
 
 const method = ref(props.methods[0]);
-const config = ref(method.value.config);
+const config = ref({ ...method.value.config });
+
+watch(method, () => {
+  config.value = { ...method.value.config }
+})
 
 </script>
 

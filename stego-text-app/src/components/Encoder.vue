@@ -69,7 +69,7 @@ const downloadPdf = () => {
                 <label for="cover">
                     Cover text
                 </label>
-                <Textarea id="cover" name="cover-text" style="flex: 1" v-model="coverText" />
+                <Textarea id="cover" name="cover-text" style="flex: 1" v-model="coverText" spellcheck="false" />
             </div>
         </div>
         <div>
@@ -81,7 +81,7 @@ const downloadPdf = () => {
             <label for="secret" style="margin-bottom:0.5rem">
                 Message to hide
             </label>
-            <Textarea v-model="stegoText" id="secret" name="secret-text" style="flex: 1" />
+            <Textarea v-model="stegoText" id="secret" name="secret-text" style="flex: 1" spellcheck="false" />
         </div>
         <Button :disabled="!canEncode" label="Encode" @click="handleGenerate" outlined />
         <div class="tall">

@@ -1,16 +1,17 @@
-export const helpWhiteText = `Widok można podzielić na dwie główne częśći. Po lewej stronie znajduje się panel kontrolny. Umożliwia on wybranie metody w oknie \"Current
-method"\. Dla tak wybranej metody dostęnych jest szereg parametrów umożlwiająch konfigurację metody. Dla metody \"White text in pdf\" parametry Red, Green i Blue pozwalają 
-na dostosowanie koloru czcionki, poprzez wprowadzenie odpowiednich wartości z gammy RGB. Należy jednak wspomnieć, iż dobrany kolor powinien być zgodny z kolorem tła, aby 
-był on niewykrywalny. Domyślnie jest wybrany kolor biały. W dalszej części, parametr FontSize umożliwia wybranie czcionki, w jakiej będzie ukryty tekst. Ostatnim polem 
-umożlwiiającym dostosowanie działanie algorytmu \"White text in pdf\" jest pole hash, które to umożlwia wproadzenie ciągu znaków, które to pozwoli odróżnić ukryty tekst 
-od rzeczywistego. Ukrywana wiadomość będzie poprzedzona i zakończona owym hashem. <br><br>
+export const helpWhiteText = `The view can be divided into two main parts. On the left side is the control panel. It allows the selection of a method in the 
+"Current method" window. For the chosen method, a range of parameters are available allowing the configuration of the method. For the "White text in pdf" method, 
+the Red, Green, and Blue parameters allow for adjusting the font color by entering appropriate values from the RGB gamut. However, it should be mentioned that the 
+chosen color should be consistent with the background color to make it undetectable. The default color is white. In the further part, the FontSize parameter allows 
+the selection of the font in which the hidden text will be. The last field enabling the adjustment of the "White text in pdf" algorithm's operation is the hash field, 
+which allows the introduction of a character sequence that will help distinguish the hidden text from the actual one. The hidden message will be preceded and followed 
+by this hash. <br><br>
 
-Część główna podzieloona jest na 3 zakładki. Pierwsza z nich oferuje szereg funckjonalności związancych z szyfrowaniem wiaodmości. Widok ten pozwala na skorzystanie z
-gotowego już pliku pdf poprzez jego zaimportowanie przyciskiem \"Choose source file\".  Następnie po wybraniu pliku odblokuje się przycisk \"Encode\". Po jego wciśnięciu,
-wpisana wiadomość w polu tekstowym zostanie ukryta, a oczom ukaże się plik z zaszyfrowaną wiadomością, który to można pobrać wybierając przycisk \"Download\". Możliwe jest 
-również zastąpienie gotowego pliku nowoutworzonym, poprzez wybranie opcji "Use plaintext source". Wówczas w miejscu importu pliku pojawi się pole tekstowym, umożlwiające 
-wpisanie tekstu, który znajdzie się w wynikowym pliku w widocznej formie dla odbiorcy (nie jest to ukrywana wiadomość). Pozostałe kroki pozostają niezmienne.
-Druga zakładka odpowiedzialna jest za deszyfrowanie wiadomości. W tym widoku należy wybrać zaszyfrowany plik, a następnie nacisnąć przycisk \"Decode\". Wówczas na ekranie 
-wyświetli się odszyfrowana wiadomość. <br><br>
+The main part is divided into 3 tabs. The first one offers a range of functionalities related to encrypting messages. This view allows for the use of an already existing 
+pdf file by importing it through the "Choose source file" button. Then, after selecting a file, the "Encode" button becomes active. Upon pressing it, the message entered 
+in the text field will be hidden, and a file with the encrypted message will appear, which can be downloaded by selecting the "Download" button. It is also possible to 
+replace the ready-made file with a newly created one, by choosing the option "Use plaintext source". In this case, a text field appears in the place of the file import, 
+allowing the entry of text that will appear in the resulting file in a visible form for the recipient (this is not the hidden message). The remaining steps remain 
+unchanged. The second tab is responsible for decrypting messages. In this view, you need to select the encrypted file and then press the "Decode" button. Then, the 
+decrypted message will be displayed on the screen. <br><br>
 
-Ostatnią zakładką jest zakładka \"Help"\. Jej funkcjonalność miałeś/aś okazję już poznać :).`;
+The last tab is the "Help" tab. You have already had the opportunity to become familiar with its functionality :).`;

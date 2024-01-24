@@ -1,7 +1,7 @@
 import { Method } from "../types";
 import { textFromPdf } from "../utils/file";
 import { escapeRegExp } from "../utils/regex";
-import { PDFDocument, RGB, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 
 interface SpaceCipher {
   fontSize: number;
@@ -21,7 +21,9 @@ export const spaceCipher: Method<SpaceCipher> = {
   execute: (source, stego, config) =>
     new Promise(async (resolve) => {
       const pdfDoc = await PDFDocument.create();
+      const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
       const page = pdfDoc.addPage();
+      page.setFont(font);
       page.setLineHeight(config.lineHeight);
       const textContent = await textFromPdf(source);
       const pad = 24;
@@ -29,19 +31,27 @@ export const spaceCipher: Method<SpaceCipher> = {
       let xPos = pad / 2;
       let yPos = page.getSize().height - pad;
       let stegoIndex = 0;
+      const spaceWidth = font.widthOfTextAtSize(" ", config.fontSize);
 
-      const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-      page.setFont(font);
+      const draw = (text: string, hide: boolean) => {
+        let fontSize = config.fontSize;
+        if (hide) {
+          // get font size at which hidden text is as wide as an ordinary spacebar
+          let f = 1;
+          while (font.widthOfTextAtSize(text, f) < spaceWidth) {
+            f++;
+          }
+          fontSize = f - 1;
+        }
 
-      const draw = (text: string, color: RGB) => {
         page.drawText(text, {
           x: xPos,
           y: yPos,
-          size: config.fontSize,
-          color,
+          size: fontSize,
+          color: hide ? rgb(1, 1, 1) : rgb(0, 0, 0),
           maxWidth: maxWidth,
         });
-        xPos += font.widthOfTextAtSize(text, config.fontSize);
+        xPos += font.widthOfTextAtSize(text, fontSize);
         if (xPos >= maxWidth) {
           xPos = pad / 2;
           yPos -= config.lineHeight;
@@ -60,15 +70,15 @@ export const spaceCipher: Method<SpaceCipher> = {
           continue; // don't start line with a whitespace
         }
         if (letter === " " && stegoIndex < stego.length) {
-          draw(config.hash + stego[stegoIndex], rgb(1, 1, 1));
+          draw(config.hash + stego[stegoIndex], true);
           stegoIndex++;
           continue;
         }
         if (xPos === pad / 2 && stegoIndex === stego.length) {
-          draw(textContent.substring(i + 1), rgb(0, 0, 0));
+          draw(textContent.substring(i + 1), false);
           break;
         } else {
-          draw(textContent[i], rgb(0, 0, 0));
+          draw(textContent[i], false);
         }
       }
       resolve(await pdfDoc.save());

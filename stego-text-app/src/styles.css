@@ -11,6 +11,7 @@ main {
   padding: 0;
   margin: 0;
   background-color: rgb(17, 24, 39);
+  overscroll-behavior: none !important;
 }
 
 #app {
@@ -28,4 +29,16 @@ main {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+hr {
+  border-color: #374151;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.pdf-wrapper {
+  overflow: auto !important;
 }

@@ -22,4 +22,7 @@ export default defineConfig(async () => ({
       target: "esnext",
     },
   },
+  build: {
+    target: "esnext",
+  },
 }));
